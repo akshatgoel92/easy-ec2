@@ -7,9 +7,11 @@ import json
 
 def get_credentials():
     '''
+    =================================================================
     Need AWS key and secret key. 
     These are stored in secrets.json. 
     This function loads this .json file and stores these credentials.
+    =================================================================
     '''
     with open('./secrets.json') as data_file: 
         secrets = json.load(data_file)
@@ -22,7 +24,9 @@ def get_credentials():
 
 def get_ec2_urls(name):
     '''
+    =================================================================
     Get EC2 URLs.
+    =================================================================
     '''
     with open('./secrets.json') as data_file: 
         secrets = json.load(data_file)
@@ -36,8 +40,10 @@ def get_ec2_urls(name):
 
 def get_ec2_connection(key, secret_key):
     '''
+    =================================================================
     Get a connection to the EC2 dashboard given the key and
     secret key.
+    =================================================================
     '''
     conn = boto.ec2.connect_to_region("ap-south-1",
                                       aws_access_key_id=key,
@@ -48,7 +54,9 @@ def get_ec2_connection(key, secret_key):
 
 def get_instance_info(key, secret_key):
     '''
+    =================================================================
     Get dictionary with keys [instance name]: value [instance ID].
+    =================================================================
     '''
     conn = get_ec2_connection(key, secret_key)
     reservations = conn.get_all_instances()
@@ -62,7 +70,9 @@ def get_instance_info(key, secret_key):
 
 def get_instance_ids(key, secret_key, names, target_names):
     '''
+    =================================================================
     Get instance names.
+    =================================================================
     '''
     conn = get_ec2_connection(key, secret_key)
     reservations = conn.get_all_instances()
@@ -73,9 +83,11 @@ def get_instance_ids(key, secret_key, names, target_names):
 
 def check_names(names, name):
     '''
+    =================================================================
     Check whether a given name on which user 
     wants to perform action is indeed a valid EC2 
     instance. Return an AssertionError if not.
+    =================================================================
     '''
     assert name in names
     
@@ -84,8 +96,10 @@ def check_names(names, name):
 
 def launch_instance(key, secret_key):
     '''
+    =================================================================
     Launch a new t2.small instance using the paydash-hh-pull AMI
     and security group.
+    =================================================================
     '''
     
     conn = get_ec2_connection(key, secret_key)
@@ -97,7 +111,9 @@ def launch_instance(key, secret_key):
 
 def restart_instance(key, secret_key, target_instance_ids):
     '''
+    =================================================================
     Restart a stopped instance.
+    =================================================================
     '''
     
     conn = get_ec2_connection(key, secret_key)
@@ -106,7 +122,9 @@ def restart_instance(key, secret_key, target_instance_ids):
 
 def reboot_instance(key, secret_key, target_instance_ids):
     '''
+    =================================================================
     Reboot instances.
+    =================================================================
     '''
     
     conn = get_ec2_connection(key, secret_key)
@@ -115,7 +133,9 @@ def reboot_instance(key, secret_key, target_instance_ids):
 
 def stop_instance(key, secret_key, target_instance_ids):
     '''
+    =================================================================
     Stop an instance with a given name.
+    =================================================================
     '''
     
     conn = get_ec2_connection(key, secret_key)
@@ -124,7 +144,9 @@ def stop_instance(key, secret_key, target_instance_ids):
 
 def ssh_connect(url, key_file, username):
     '''
+    =================================================================
     Connect to server using ssh.
+    =================================================================
     '''
     
     # Print 
@@ -142,7 +164,9 @@ def ssh_connect(url, key_file, username):
 
 def delete_cron(ssh):
     '''
+    =================================================================
     Delete all existing cron jobs from server.
+    =================================================================
     '''
     
     # Execute command to remove all cronjobs
@@ -158,8 +182,10 @@ def delete_cron(ssh):
 
 def set_cron(ssh, job):
     '''
+    =================================================================
     Set new cron-tab on specified instance given an ssh
     client object and job details.
+    =================================================================
     '''
     
     # Print 
@@ -178,7 +204,9 @@ def set_cron(ssh, job):
 
 def main():
     '''
-    Call the complete code.
+    =================================================================
+    Excute the complete code.
+    =================================================================
     '''
     # Get credentials
     secret_key, key = get_credentials()
