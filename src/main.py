@@ -1,7 +1,7 @@
 # Import packages
 import paramiko
 import argparse
-import boto.ec2
+import boto3.ec2
 import json
 
 
@@ -19,7 +19,7 @@ def get_credentials():
     key = secrets['aws']['access_key_id']
     secret_key = secrets['aws']['secret_access_key']
     
-    return secret_key, key
+    return(secret_key, key)
 
 
 def get_ec2_urls(name):
@@ -35,7 +35,7 @@ def get_ec2_urls(name):
     username = secrets['ec2']['username']
     url = secrets['ec2'][name]
     
-    return key_pair, username, url
+    return(key_pair, username, url)
     
 
 def get_ec2_connection(key, secret_key):
@@ -49,7 +49,7 @@ def get_ec2_connection(key, secret_key):
                                       aws_access_key_id=key,
                                       aws_secret_access_key=secret_key)
     
-    return conn
+    return(conn)
 
 
 def get_instance_info(key, secret_key):
@@ -65,7 +65,7 @@ def get_instance_info(key, secret_key):
     instance_info = {i.__dict__['tags']['Name']:i.__dict__['id'] for i in instances}
     
     names = instance_info.keys()
-    return instance_info, names
+    return(instance_info, names)
 
 
 def get_instance_ids(key, secret_key, names, target_names):
@@ -159,7 +159,7 @@ def ssh_connect(url, key_file, username):
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(url,key_filename=key_file,username=username)
     
-    return ssh
+    return(ssh)
     
 
 def delete_cron(ssh):
