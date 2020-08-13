@@ -101,7 +101,6 @@ def launch_instance(key, secret_key):
     and security group.
     =================================================================
     '''
-    
     conn = get_ec2_connection(key, secret_key)
     conn.run_instances('ami-09b370c460434b12c', 
                        key_name='paydash-etl', 
